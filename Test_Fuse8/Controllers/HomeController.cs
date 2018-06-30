@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
+using Test_Fuse8.Models;
+using Test_Fuse8.ViewModels;
+using Test_Fuse8.Services;
 
 namespace Test_Fuse8.Controllers
 {
@@ -13,18 +17,36 @@ namespace Test_Fuse8.Controllers
             return View();
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult Index(Period period)
         {
-            ViewBag.Message = "Your application description page.";
+            IEnumerable<OrderDetail> list;
 
-            return View();
-        }
+            using (NorthwindDb db = new NorthwindDb())
+            {
+                list = db.OrderDetails.Include(o => o.Order).Include(o => o.Product).ToList();
+            }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+            var report = new List<Report>();
 
-            return View();
+            foreach (var order in list)
+            {
+                report.Add(new Report
+                {
+                    Number = order.Order.ID,
+                    OrderDate = order.Order.OrderDate,
+                    Article = order.Product.ID,
+                    Name = order.Product.Name,
+                    Quantity = order.Quantity,
+                    UnitPrice = order.UnitPrice,
+                    Cost = order.Quantity * order.UnitPrice
+                });
+            }
+
+            CreatingExcelDoc.CreateDoc(report, period);
+
+            return View("Mail");
+            //return View("Report", report);
         }
     }
 }
