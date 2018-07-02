@@ -60,8 +60,21 @@ namespace Test_Fuse8.Controllers
             CreatingExcelDoc.CreateDoc(report, period);
 
             ViewBag.Period = period;
-            //return View("Mail");
+
             return View("Report", report);
+        }
+
+        public ActionResult Mail()
+        {
+            return View(new EmailSettings());
+        }
+
+        [HttpPost]
+        public ActionResult Mail(EmailSettings settings)
+        {
+            SendingMail.SendEmail(settings);
+
+            return View("Sent");
         }
     }
 }

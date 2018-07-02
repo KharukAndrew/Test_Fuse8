@@ -175,6 +175,8 @@
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CreatingExcelDoc.cs" />
+    <Compile Include="Services\SendingMail.cs" />
+    <Compile Include="ViewModels\EmailSettings.cs" />
     <Compile Include="ViewModels\Period.cs" />
     <Compile Include="ViewModels\Report.cs" />
   </ItemGroup>
@@ -216,6 +218,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Report.cshtml" />
+    <Content Include="Views\Home\Mail.cshtml" />
+    <Content Include="Views\Home\Sent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

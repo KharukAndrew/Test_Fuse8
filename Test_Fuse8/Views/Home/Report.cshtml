@@ -4,9 +4,14 @@
     ViewBag.Title = "Report";
 }
 
-<h2>Report</h2>
+<h2>Report</h2> <p>@Html.ActionLink("Send an Email", "Mail")</p>
 
-<p>from:@ViewBag.Period.Start to:@ViewBag.Period.End</p>
+<p>
+    from:@ViewBag.Period.Start
+</p><br />
+<p>
+    to:@ViewBag.Period.End
+</p>
 
 <table class="table">
     <tr>
