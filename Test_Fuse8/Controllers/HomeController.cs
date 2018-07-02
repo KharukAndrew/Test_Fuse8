@@ -18,13 +18,27 @@ namespace Test_Fuse8.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(Period period)
+        public ActionResult Report(Period period)
         {
+            if (period.End == new DateTime())
+            {
+                period.End = DateTime.Now;
+            }
+            else
+            {
+                period.End = period.End.AddSeconds(86399);
+            }   
+
             IEnumerable<OrderDetail> list;
 
             using (NorthwindDb db = new NorthwindDb())
             {
-                list = db.OrderDetails.Include(o => o.Order).Include(o => o.Product).ToList();
+                list = db.OrderDetails
+                    .Include(o => o.Order)
+                    .Where(o => o.Order.OrderDate >= period.Start)
+                    .Where(o => o.Order.OrderDate <= period.End)
+                    
+                    .Include(o => o.Product).ToList();
             }
 
             var report = new List<Report>();
@@ -45,8 +59,9 @@ namespace Test_Fuse8.Controllers
 
             CreatingExcelDoc.CreateDoc(report, period);
 
-            return View("Mail");
-            //return View("Report", report);
+            ViewBag.Period = period;
+            //return View("Mail");
+            return View("Report", report);
         }
     }
 }
