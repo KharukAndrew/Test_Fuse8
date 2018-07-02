@@ -10,38 +10,26 @@
     @using (Html.BeginForm("Report", "Home"))
     {
 
-        @*
+        
                 <div class="form-group">
-                @Html.LabelFor(model => model.Period.Start, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Start, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Period.Start, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Period.Start, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Start, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Start, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Period.End, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.End, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Period.End, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Period.End, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.End, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.End, "", new { @class = "text-danger" })
                 </div>
             </div>
-        *@
-
-
-
         
-            <label for="period.start">from:</label>
-            <input type="date" name="period.start" id="period.start" /><br />
-
-            <label for="period.end">to:</label>
-            <input type="date" name="period.end" id="period.end" />
-        
-
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Input" class="btn btn-default" />
             </div>
         </div>
     }

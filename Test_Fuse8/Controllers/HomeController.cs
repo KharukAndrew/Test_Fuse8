@@ -7,6 +7,7 @@ using System.Data.Entity;
 using Test_Fuse8.Models;
 using Test_Fuse8.ViewModels;
 using Test_Fuse8.Services;
+using System.Threading.Tasks;
 
 namespace Test_Fuse8.Controllers
 {
@@ -14,11 +15,11 @@ namespace Test_Fuse8.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return View(new Period());
         }
 
         [HttpPost]
-        public ActionResult Report(Period period)
+        public async Task<ActionResult> Report(Period period)
         {
             if (period.End == new DateTime())
             {
@@ -33,12 +34,11 @@ namespace Test_Fuse8.Controllers
 
             using (NorthwindDb db = new NorthwindDb())
             {
-                list = db.OrderDetails
+                list = await db.OrderDetails
                     .Include(o => o.Order)
                     .Where(o => o.Order.OrderDate >= period.Start)
-                    .Where(o => o.Order.OrderDate <= period.End)
-                    
-                    .Include(o => o.Product).ToList();
+                    .Where(o => o.Order.OrderDate <= period.End)                   
+                    .Include(o => o.Product).ToListAsync();
             }
 
             var report = new List<Report>();
@@ -72,9 +72,13 @@ namespace Test_Fuse8.Controllers
         [HttpPost]
         public ActionResult Mail(EmailSettings settings)
         {
-            SendingMail.SendEmail(settings);
+            if (ModelState.IsValid)
+            {
+                SendingMail.SendEmail(settings);
+                return View("Sent");
+            }
 
-            return View("Sent");
+            return View(settings);            
         }
     }
 }
